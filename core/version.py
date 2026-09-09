@@ -3,7 +3,7 @@ AZZAZEL core/version.py — Origen canónico de versión del producto.
 """
 from __future__ import annotations
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __product_name__ = "AZZAZEL VPN"
 __description__ = "Enterprise Network Warfare & Multi-Hop Proxy Suite"
 __author__ = "AZZAZEL Core Engineering Team"

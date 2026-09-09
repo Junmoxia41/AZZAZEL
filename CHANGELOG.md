@@ -4,6 +4,25 @@ Todos los cambios notables en este proyecto se documentan en este archivo según
 
 ---
 
+## [1.0.1] - 2026-09-09
+
+### ✨ Añadido
+- **Empaquetado como aplicación de escritorio**: `packaging/azzazel.spec` (PyInstaller) y `packaging/build_windows.bat` generan un `.exe` de Windows autocontenido (incluye el build de la PWA embebido). Workflow de GitHub Actions (`.github/workflows/release-windows.yml`) compila y prueba en un runner Windows real en cada push y publica un Release descargable en cada tag `vX.Y.Z`.
+
+### 🔒 Seguridad y saneamiento
+- **Eliminación total de datos personales**: se retiraron de todo el proyecto (backend Python y app web) los valores de ejemplo reales que quedaban en algunos flujos de conexión; ahora todos los placeholders son genéricos.
+- **Configuración 100% remota por usuario**: proxy, credenciales y ajustes de conexión ya no se guardan en `config.yaml` ni en disco local — se leen y escriben exclusivamente en Supabase, aislados por cuenta mediante RLS (cada usuario solo ve y edita su propia configuración).
+
+### 🎨 Rediseño de la GUI de escritorio
+- **Eliminada por completo** la ventana de escritorio antigua (`ui/gui/`, CustomTkinter) y su tema "hacker" verde estilo Matrix (`ui/gui/theme.py`).
+- **Única GUI soportada ahora**: ventana WebView (`ui/webapp/desktop_window.py`, basada en `pywebview`) que carga el mismo HTML/CSS/JS de la app web/PWA — mismo login, mismos ajustes, mismo diseño oscuro azul/slate, sin duplicar interfaces.
+- Corregida la resolución de rutas del build de la PWA para que funcione también dentro del `.exe` compilado (antes solo funcionaba ejecutando el código fuente directamente).
+- Suavizado el lenguaje "hacker" del modo consola (CLI): ya no se muestra la lluvia de caracteres estilo Matrix al arrancar y el tema visual por defecto pasó de `matrix` a `cyber`. El modo consola sigue disponible como opción de texto para quien lo prefiera.
+
+### 🐛 Corregido
+- `PermissionError` en Windows al finalizar `tests/test_logger.py` (el `FileHandler` quedaba abierto al borrar el directorio temporal de la prueba).
+- Bug de compatibilidad en `packaging/azzazel.spec`: PyInstaller ejecuta los `.spec` con `exec()`, donde `__file__` no existe; ahora se usa la variable `SPECPATH` que PyInstaller inyecta.
+
 ## [1.0.0] - 2026-09-08
 
 ### ✨ Añadido

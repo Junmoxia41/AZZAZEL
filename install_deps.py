@@ -146,7 +146,7 @@ MODULE_TO_PYPI: dict[str, str] = {
     "yaml": "PyYAML",
     "PIL": "Pillow",
     "cryptography": "cryptography",
-    "customtkinter": "customtkinter",
+    "webview": "pywebview",
     "psutil": "psutil",
     "paramiko": "paramiko",
     "colorama": "colorama",
@@ -404,7 +404,7 @@ class DependencyAnalyzer:
         low = pypi_name.lower()
         if low in ("cryptography", "pyyaml", "colorama"):
             return DependencyCategory.CORE
-        if low in ("customtkinter", "pillow"):
+        if low in ("pywebview", "pillow"):
             return DependencyCategory.GUI
         if low in ("psutil", "paramiko", "scapy", "aiohttp", "websockets", "dnspython", "python-nmap", "netifaces"):
             return DependencyCategory.NETWORK

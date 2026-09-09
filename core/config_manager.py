@@ -119,7 +119,7 @@ class AppSecuritySection:
 @dataclass
 class UiSection:
     mode: str = "ask"
-    theme: str = "matrix"
+    theme: str = "cyber"
     font_family: str = "Cascadia Code"
     font_size: int = 13
     enable_animations: bool = True

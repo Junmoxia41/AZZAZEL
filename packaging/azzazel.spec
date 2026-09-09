@@ -50,8 +50,6 @@ hidden_imports = [
     "webview.platforms.edgechromium",
     "clr_loader",
     "pythonnet",
-    "customtkinter",
-    "PIL",
     "psutil",
     "paramiko",
     "yaml",

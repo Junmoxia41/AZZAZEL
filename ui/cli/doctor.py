@@ -196,7 +196,7 @@ class SystemDoctor:
         deps = [
             ("cryptography", "cryptography", True),
             ("yaml", "PyYAML", True),
-            ("customtkinter", "customtkinter", False),
+            ("webview", "pywebview", False),
             ("psutil", "psutil", False),
             ("hypothesis", "hypothesis", False),
         ]

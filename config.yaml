@@ -10,7 +10,7 @@ azzazel:
   mode: server
   ui:
     mode: ask
-    theme: matrix
+    theme: cyber
     font_family: Cascadia Code
     font_size: 13
     enable_animations: true

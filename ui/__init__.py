@@ -2,7 +2,8 @@
 AZZAZEL VPN — ui
 ================
 
-Interfaces de usuario: CLI con estética hacker y GUI oscura (customtkinter).
+Interfaces de usuario: consola de texto (``ui.cli``) y ventana de escritorio
+con el mismo diseño oscuro de la app web (``ui.webapp``, WebView).
 """
 
 __version__: str = "1.0.0"

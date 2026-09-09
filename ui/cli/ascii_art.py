@@ -153,7 +153,7 @@ THEMES: dict[str, Theme] = {
     ),
 }
 
-_current_theme: Theme = THEMES["matrix"]
+_current_theme: Theme = THEMES["cyber"]
 
 
 def set_theme(name: str) -> Theme:
@@ -809,7 +809,7 @@ def cyber_progress_bar(
 # ---------------------------------------------------------------------------
 def _demo() -> None:
     """Recorre todos los efectos del módulo (auto-test visual)."""
-    set_theme("matrix")
+    set_theme("cyber")
     clear_screen()
     print_banner()
 
@@ -820,7 +820,7 @@ def _demo() -> None:
               cps=120, color=theme.secondary)
     decrypt_text("[✓] CANAL CIFRADO ESTABLECIDO — AES-256-GCM",
                  color=theme.primary)
-    glitch_text("[!] INTRUSO DETECTADO EN EL PUERTO 31337",
+    glitch_text("[!] Conexión inestable detectada, reintentando...",
                 color=theme.alert)
 
     print()

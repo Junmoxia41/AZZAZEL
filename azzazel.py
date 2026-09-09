@@ -179,7 +179,7 @@ DEPENDENCIES: tuple[Dependency, ...] = (
     Dependency("dns", "dnspython", False, "herramientas DNS", "S5"),
     Dependency("scapy", "scapy", False, "sniffer / paquetes", "S5"),
     Dependency("paramiko", "paramiko", False, "túneles SSH", "S7"),
-    Dependency("customtkinter", "customtkinter", False, "GUI (Sprint 6)", "S6"),
+    Dependency("webview", "pywebview", False, "Ventana de escritorio (GUI)", "S6"),
 )
 
 
@@ -276,12 +276,18 @@ def bootstrap(args: argparse.Namespace) -> AppContext:
 # Splash de arranque
 # ---------------------------------------------------------------------------
 def run_splash(enabled: bool) -> None:
-    """Secuencia de arranque: lluvia Matrix + banner + mensajes de boot."""
+    """Secuencia de arranque: banner + mensajes de boot.
+
+    Nota: ya no se reproduce la lluvia de caracteres estilo "Matrix" al
+    arrancar (era el remanente más visible de la estética "hacker" que se
+    retiró del producto). ``ui.cli.ascii_art.matrix_rain`` sigue existiendo
+    como utilidad de la librería visual, pero el arranque normal no la
+    invoca.
+    """
     if not enabled:
         art.print_banner()
         return
     art.clear_screen()
-    art.matrix_rain(duration=2.2)
     art.print_banner()
     theme = art.get_theme()
     boot_lines = [
@@ -674,8 +680,8 @@ def choose_ui_mode(ctx: AppContext, forced: Optional[str] = None) -> str:
         [
             _c("¿Cómo prefieres trabajar con AZZAZEL?", theme.primary),
             "",
-            f"{_c('[1]', theme.tertiary)} 🖥️  CONSOLA  — terminal hacker "
-            f"(matrix, efectos, prompt azzazel>)",
+            f"{_c('[1]', theme.tertiary)} 🖥️  CONSOLA  — terminal de texto "
+            f"(comandos, prompt azzazel>)",
             f"{_c('[2]', theme.tertiary)} 🪟 VENTANA  — programa normal, "
             f"ventana oscura con paneles",
             "",
@@ -701,42 +707,29 @@ def choose_ui_mode(ctx: AppContext, forced: Optional[str] = None) -> str:
 def launch_gui(ctx: AppContext) -> int:
     """Lanza la ventana de escritorio (mismo diseño que la app web/PWA).
 
-    Prioriza la ventana WebView (``ui.webapp``), que carga el HTML/CSS/JS
-    real de la PWA — login, ajustes y proxy corporativo con la interfaz
-    unificada. Si ``pywebview`` o el build de la PWA no están disponibles,
-    cae a la ventana legada de CustomTkinter y, si tampoco es viable, a CLI.
+    Única implementación soportada: la ventana WebView (``ui.webapp``), que
+    carga el HTML/CSS/JS real de la PWA — login, ajustes y proxy corporativo
+    con la interfaz unificada. Ya no existe una GUI nativa alternativa: la
+    antigua ventana de CustomTkinter con tema "hacker" (Matrix verde) fue
+    retirada por completo del proyecto. Si el entorno no soporta WebView
+    (falta ``pywebview`` o el build de la PWA), se explica el motivo y se
+    cae al modo CONSOLA.
     """
     try:
         from ui.webapp.desktop_window import check_desktop_webview_support, run_desktop_app
         ok, reason = check_desktop_webview_support()
         if ok:
             return run_desktop_app()
-        _log.warning("Ventana WebView no disponible (%s); probando GUI legada.", reason)
-    except Exception as exc:  # noqa: BLE001 - seguir intentando con la GUI legada
-        _log.warning("No se pudo cargar la ventana WebView: %s", exc)
-
-    try:
-        from ui.gui.app import check_gui_support, run_gui
-    except Exception as exc:  # noqa: BLE001 - fallback duro a CLI
-        print(_c(f"[✗] No se pudo cargar ninguna GUI: {exc}",
-                 AnsiPalette.NEON_RED))
-        _log.error("Import de GUI fallido: %s", exc)
-        return run_interactive(ctx)
-
-    ok, reason = check_gui_support()
-    if not ok:
         print(_c(f"[i] La ventana no puede abrirse aquí: {reason}",
                  AnsiPalette.AMBER))
         print(_c("    Arrancando en modo CONSOLA…", AnsiPalette.AMBER))
-        _log.warning("GUI no soportada (%s); fallback a CLI.", reason)
-        return run_interactive(ctx)
-    try:
-        return run_gui(ctx.config_manager)
-    except Exception as exc:  # noqa: BLE001 - display caído a mitad, etc.
-        _log.error("La GUI murió inesperadamente: %s", exc, exc_info=True)
-        print(_c(f"[✗] La ventana falló: {exc}. Sigo en CONSOLA.",
+        _log.warning("Ventana WebView no disponible (%s); fallback a CLI.", reason)
+    except Exception as exc:  # noqa: BLE001 - fallback duro a CLI
+        print(_c(f"[✗] No se pudo cargar la ventana de escritorio: {exc}",
                  AnsiPalette.NEON_RED))
-        return run_interactive(ctx)
+        _log.error("Import de ui.webapp fallido: %s", exc, exc_info=True)
+
+    return run_interactive(ctx)
 
 
 # ---------------------------------------------------------------------------
@@ -1482,7 +1475,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     """Punto de entrada: parsea args, hace bootstrap y despacha el modo."""
     args = build_parser().parse_args(argv)
-    theme = art.set_theme("matrix")  # mientras no haya config cargada
+    theme = art.set_theme("cyber")  # mientras no haya config cargada
 
     plat_preview = args.status or args.daemon or args.no_anim or not sys.stdout.isatty()
     if not plat_preview:

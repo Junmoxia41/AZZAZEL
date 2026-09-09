@@ -27,13 +27,24 @@ import threading
 from pathlib import Path
 from typing import Any, Optional
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-if str(_PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(_PROJECT_ROOT))
+_SOURCE_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_SOURCE_ROOT) not in sys.path:
+    sys.path.insert(0, str(_SOURCE_ROOT))
 
 from core.logger import get_logger
 
 _log = get_logger("ui.webapp")
+
+# Cuando el programa corre "congelado" dentro del .exe de PyInstaller,
+# `__file__` apunta a una ruta temporal interna del bundle y NO existe
+# `web_pwa/dist` junto a él: los datos empaquetados (ver `datas=` en
+# packaging/azzazel.spec) se extraen bajo `sys._MEIPASS` en su lugar.
+# Sin esta distinción la ventana de escritorio nunca encuentra el build de
+# la PWA en el .exe final y cae silenciosamente al fallback CLI.
+if getattr(sys, "frozen", False):
+    _PROJECT_ROOT = Path(getattr(sys, "_MEIPASS", _SOURCE_ROOT))
+else:
+    _PROJECT_ROOT = _SOURCE_ROOT
 
 DIST_DIR = _PROJECT_ROOT / "web_pwa" / "dist"
 
@@ -124,6 +135,15 @@ class DesktopBridgeAPI:
 def check_desktop_webview_support() -> tuple[bool, str]:
     """Comprueba si el entorno soporta abrir la ventana WebView de escritorio."""
     if not DIST_DIR.exists():
+        if getattr(sys, "frozen", False):
+            # Dentro del .exe esto es un bug de empaquetado (packaging/azzazel.spec
+            # debe incluir web_pwa/dist en `datas=`), no algo que el usuario deba
+            # resolver compilando nada — el .exe ya viene con todo incluido.
+            return False, (
+                f"No se encontró {DIST_DIR} dentro del ejecutable. "
+                "Este .exe se compiló sin incluir el build de la PWA "
+                "(revisa 'datas' en packaging/azzazel.spec)."
+            )
         return False, (
             f"No se encontró {DIST_DIR}. Compila la PWA primero: "
             "cd web_pwa && npm install && npm run build"
@@ -133,6 +153,7 @@ def check_desktop_webview_support() -> tuple[bool, str]:
     except ImportError:
         return False, "Falta 'pywebview'. Instala con: pip install pywebview"
     return True, "ok"
+
 
 
 def run_desktop_app(start_url: Optional[str] = None) -> int:

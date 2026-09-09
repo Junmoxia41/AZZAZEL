@@ -15,16 +15,16 @@ cryptography>=41.0          # AES-256-GCM / Scrypt (core.crypto_engine)
 colorama>=0.4.6 ; sys_platform == "win32"   # colores ANSI en Windows
 
 # --- GUI de escritorio (ui.mode=gui) ---------------------------------------
-pywebview>=5.0               # ventana con el MISMO diseño que la PWA web
-                              # (requiere `cd web_pwa && npm run build` antes)
-customtkinter>=5.2          # ventana legada (fallback si falta pywebview)
-pillow>=10.0                # iconos/imágenes de la GUI legada
-psutil>=5.9                 # gráfica/caudal de red en vivo de la GUI
-                            # (sin psutil la GUI muestra la onda SYNTH)
-# NOTA: tkinter es de sistema — Linux: sudo apt install python3-tk
-# (en Windows/macOS ya viene con el instalador de Python)
+# Única implementación soportada: ventana WebView con el MISMO diseño que
+# la PWA web (login, ajustes y proxy corporativo con la interfaz unificada).
+# No existe una GUI nativa alternativa: si falta pywebview o no se ha
+# compilado la PWA, el programa cae directamente a la consola de texto.
+pywebview>=5.0                # requiere `cd web_pwa && npm install && npm run build` antes
+psutil>=5.9                  # métricas de red/sistema mostradas en la ventana
 # NOTA (Linux): pywebview necesita GTK+WebKit2:
 #   sudo apt install python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1
+# NOTA (Windows/macOS): pywebview usa el motor nativo del sistema
+# (EdgeChromium en Windows, WKWebView en macOS) — no requiere instalar nada más.
 
 # --- SPRINT 2-3 · Red / VPN (activar al llegar el sprint) ------------------
 # psutil>=5.9               # monitoreo de red/sistema (activo en status)
