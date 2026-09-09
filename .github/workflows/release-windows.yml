@@ -41,7 +41,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pyinstaller pytest pytest-asyncio hypothesis
+          pip install pyinstaller pytest pytest-asyncio anyio hypothesis
 
       - name: Instalar y compilar la PWA (web_pwa/dist)
         working-directory: web_pwa
