@@ -1,0 +1,52 @@
+{
+  "base_url": "https://azzazel-vpn.vercel.app",
+  "tested_at": "2026-09-09T15:19:47.369Z",
+  "scope": "Real React/CSS over HTTPS, no Vercel session; login form rendering only. Supabase discovery mocked, no account login or PC operations.",
+  "tests": [
+    {
+      "name": "mobile",
+      "passed": true,
+      "react_mounted": true,
+      "login_form_visible": true,
+      "body_background": "rgb(7, 10, 19)",
+      "errors": [],
+      "resources": [
+        {
+          "type": "stylesheet",
+          "status": 200,
+          "url": "https://azzazel-vpn.vercel.app/assets/index-Dhf7MA7_.css",
+          "mime": "text/css; charset=utf-8"
+        },
+        {
+          "type": "script",
+          "status": 200,
+          "url": "https://azzazel-vpn.vercel.app/assets/index-DJ5g6VcP.js",
+          "mime": "application/javascript; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "name": "desktop-spa-route",
+      "passed": true,
+      "react_mounted": true,
+      "login_form_visible": true,
+      "body_background": "rgb(7, 10, 19)",
+      "errors": [],
+      "resources": [
+        {
+          "type": "stylesheet",
+          "status": 200,
+          "url": "https://azzazel-vpn.vercel.app/assets/index-Dhf7MA7_.css",
+          "mime": "text/css; charset=utf-8"
+        },
+        {
+          "type": "script",
+          "status": 200,
+          "url": "https://azzazel-vpn.vercel.app/assets/index-DJ5g6VcP.js",
+          "mime": "application/javascript; charset=utf-8"
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

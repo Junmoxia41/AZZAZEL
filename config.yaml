@@ -1,0 +1,172 @@
+# =============================================================================
+# AZZAZEL VPN v1.0 — Archivo de Configuración Maestro
+# Generado automáticamente. Los secretos marcados con ENC[...] están cifrados
+# en reposo con AES-256-GCM mediante la clave de máquina (.azzazel.key).
+# =============================================================================
+
+azzazel:
+  version: 1.0.0
+  name: AZZAZEL
+  mode: server
+  ui:
+    mode: ask
+    theme: matrix
+    font_family: Cascadia Code
+    font_size: 13
+    enable_animations: true
+    notifications_enabled: true
+    language: es
+    animations: true
+    sound_effects: false
+  security:
+    master_password_hash: ''
+    require_password_on_boot: false
+    key_rotation_hours: 24
+    encryption_algorithm: AES-256-GCM
+    auto_lock_minutes: 30
+    max_failed_attempts: 5
+  logging:
+    level: INFO
+    file: logs/azzazel.log
+    max_size_mb: 100
+    backup_count: 5
+    rotation: 5
+    console_output: true
+    audit_log_enabled: true
+    audit_file: logs/audit.log
+  database:
+    path: data/azzazel.db
+logging:
+  level: INFO
+  file: logs/azzazel.log
+  max_size_mb: 100
+  backup_count: 5
+  rotation: 5
+  console_output: true
+  audit_log_enabled: true
+  audit_file: logs/audit.log
+vpn:
+  enabled: true
+  protocol: wireguard
+  server:
+    listen_address: 0.0.0.0
+    listen_port: 51820
+    network: 10.66.66.0/24
+    dns: 1.1.1.1, 8.8.8.8
+    max_clients: 5
+    keepalive: 25
+  client:
+    server_address: 127.0.0.1
+    server_port: 51820
+    auto_connect: false
+    kill_switch: true
+    persistent_keepalive: 25
+    split_tunnel: false
+    split_tunnel_apps: []
+    split_tunnel_domains: []
+  keys:
+    private_key: ''
+    public_key: ''
+    psk: ''
+proxy:
+  local:
+    enabled: true
+    http_port: 8888
+    socks5_port: 1080
+    bind_address: 127.0.0.1
+    max_connections: 100
+    cache_enabled: true
+    cache_size_mb: 500
+  upstream:
+    enabled: false
+    host: ''
+    port: 8080
+    auth_type: basic
+    domain: ''
+    username: ''
+    password: ''
+    ssl_verify: true
+    ca_cert: ''
+    bypass:
+    - localhost
+    - 127.0.0.1
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    pac_url: ''
+bridge:
+  enabled: true
+  listen_port: 8765
+  visibility: tailscale
+  tailscale:
+    auth_key: ''
+    hostname: azzazel-server
+    ephemeral: true
+  direct:
+    ddns_provider: ''
+    ddns_hostname: ''
+    ddns_username: ''
+    ddns_password: ''
+    port_forward: true
+  relay:
+    server: ''
+    token: ''
+  security:
+    pin: ''
+    pin_enabled: true
+    pin_timeout_minutes: 15
+    pin_expiry_hours: 24
+    max_devices: 5
+    allowed_devices: []
+    require_2fa: false
+  anti_suspend:
+    enabled: true
+    method: prevent
+    wol_mac: ''
+  heartbeat:
+    interval_seconds: 30
+    timeout_seconds: 90
+    auto_reconnect: true
+    max_retries: 10
+  sharing:
+    internet: true
+    files: true
+    clipboard: false
+    notifications: false
+    allow_localhost: false
+    allowed_destinations:
+    - '*'
+network:
+  interfaces:
+    preferred: auto
+  dns:
+    custom_dns: []
+    dns_over_https: false
+    doh_provider: cloudflare
+    doh_server: https://cloudflare-dns.com/dns-query
+  anti_suspend:
+    enabled: true
+    method: prevent
+    wol_mac: ''
+firewall:
+  enabled: false
+  default_policy: allow
+  rules: []
+  geo_block: []
+api:
+  enabled: true
+  host: 0.0.0.0
+  port: 9999
+  auth_token: ENC[AES-256-GCM]:iP5KjyDR5nx0VRiNp9ICr56mAemB2L_DXsSDuysEdxx_EQxhpKVelfBe
+  rate_limit: 100
+  cors_origins:
+  - '*'
+monitoring:
+  enabled: true
+  traffic_logging: true
+  resource_monitoring: true
+  alert_thresholds:
+    cpu_percent: 90
+    memory_percent: 85
+    disk_percent: 95
+    bandwidth_mbps: 100

@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and test runners
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Environment & local credentials
+.venv/
+venv/
+ENV/
+*.key
+data/.azzazel.key
+data/bridge_devices.json
+logs/*.log
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.spec.bak
+packaging/azzazel.ico
+web_pwa/dist/
+web_pwa/node_modules/
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

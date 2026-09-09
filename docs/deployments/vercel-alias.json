@@ -1,0 +1,8 @@
+{
+  "deployment_id": "dpl_FAnYvBxxQ37Zd1P4wLba7ptBD28C",
+  "deployment_url": "https://azzazel-remote-mx8o63uun-junmoxia41s-projects.vercel.app",
+  "short_url": "https://azzazel-vpn.vercel.app",
+  "target": "production",
+  "status": "VERIFIED: public assets and React login screen; not account authentication or PC connectivity",
+  "evidence": "mime-fix-2026-09-09.json"
+}

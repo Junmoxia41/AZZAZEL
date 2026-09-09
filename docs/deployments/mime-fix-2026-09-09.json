@@ -1,0 +1,41 @@
+{
+  "requested_at": "2026-09-09T15:18:03.357403+00:00",
+  "deployment_id": "dpl_FAnYvBxxQ37Zd1P4wLba7ptBD28C",
+  "deployment_url": "https://azzazel-remote-mx8o63uun-junmoxia41s-projects.vercel.app",
+  "short_url": "https://azzazel-vpn.vercel.app",
+  "project_id": "prj_BCto71N8v6kQLtoTpoaQiW5qhbRm",
+  "team_id": "team_h55IgAHX1ZF61JKTGaN2KgH9",
+  "target": "production",
+  "ready_state": "READY",
+  "previous_deployment_id": "dpl_BYib9hAyej1j77L83eeizT9b3QkM",
+  "previous_short_alias_deployment_id": "dpl_BYib9hAyej1j77L83eeizT9b3QkM",
+  "previous_production_deployment_id": "dpl_CSpD9zZipW9NrsXJM3SU5SeZL1D6",
+  "sso_protection_unchanged": {
+    "deploymentType": "all_except_custom_domains"
+  },
+  "file_count": 8,
+  "verification": "VERIFIED: public assets and React login screen; not account authentication or PC connectivity",
+  "assigned_aliases": [
+    "azzazel-vpn.vercel.app",
+    "azzazel-remote.vercel.app"
+  ],
+  "domain_deployment_id": "dpl_FAnYvBxxQ37Zd1P4wLba7ptBD28C",
+  "protection_preserved": true,
+  "legacy_alias_updated": true,
+  "tests": {
+    "build": {
+      "passed": 12,
+      "failed": 0
+    },
+    "public_https": {
+      "passed": 12,
+      "failed": 0
+    },
+    "chromium_viewports": {
+      "passed": 2,
+      "failed": 0
+    },
+    "pc_connectivity": "NOT TESTED",
+    "supabase_sign_in": "NOT TESTED"
+  }
+}

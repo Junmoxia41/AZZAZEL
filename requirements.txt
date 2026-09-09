@@ -1,0 +1,49 @@
+# ===========================================================================
+# AZZAZEL VPN v1.0 — dependencias Python (Python 3.10+)
+#
+# Instalación rápida:
+#   pip install -r requirements.txt
+#
+# Las secciones marcadas como "SPRINT X" solo son necesarias cuando se
+# desarrolle/use ese módulo; el núcleo (Sprint 1-2) funciona con:
+#   pyyaml, cryptography  (+ colorama en Windows)
+# ===========================================================================
+
+# --- SPRINT 1 · Núcleo (obligatorio) --------------------------------------
+pyyaml>=6.0                 # config.yaml
+cryptography>=41.0          # AES-256-GCM / Scrypt (core.crypto_engine)
+colorama>=0.4.6 ; sys_platform == "win32"   # colores ANSI en Windows
+
+# --- GUI de escritorio (ui.mode=gui) ---------------------------------------
+pywebview>=5.0               # ventana con el MISMO diseño que la PWA web
+                              # (requiere `cd web_pwa && npm run build` antes)
+customtkinter>=5.2          # ventana legada (fallback si falta pywebview)
+pillow>=10.0                # iconos/imágenes de la GUI legada
+psutil>=5.9                 # gráfica/caudal de red en vivo de la GUI
+                            # (sin psutil la GUI muestra la onda SYNTH)
+# NOTA: tkinter es de sistema — Linux: sudo apt install python3-tk
+# (en Windows/macOS ya viene con el instalador de Python)
+# NOTA (Linux): pywebview necesita GTK+WebKit2:
+#   sudo apt install python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1
+
+# --- SPRINT 2-3 · Red / VPN (activar al llegar el sprint) ------------------
+# psutil>=5.9               # monitoreo de red/sistema (activo en status)
+# dnspython>=2.4            # DNS tools (Sprint 5)
+# aiohttp>=3.9              # HTTP async
+# websockets>=12.0          # websocket tunnel (Sprint 7)
+# paramiko>=3.4             # SSH tunnels (S7 — activo en sección sprint-7)
+# scapy>=2.5                # sniffer / paquetes (Sprint 5)
+# qrcode>=7.4               # QR del bridge (Sprint 4)
+# pyzbar>=0.1.9             # lectura QR (Sprint 4, requiere libzbar sistema)
+# netifaces>=0.11           # interfaces de red (Sprint 5)
+# python-nmap>=0.7          # escáner (Sprint 5)
+# wakeonlan>=3.0            # WoL (Sprint 4)
+# zeroconf>=0.131           # mDNS discovery (Sprint 4)
+
+# --- Desarrollo / Tests (Sprint 8) -----------------------------------------
+# pytest>=8.0
+# pytest-asyncio>=0.23
+# pytest-cov>=5.0
+
+# --- Sprint 7: acceso remoto SSH (remote/remote_shell.py) ---
+paramiko>=3.4

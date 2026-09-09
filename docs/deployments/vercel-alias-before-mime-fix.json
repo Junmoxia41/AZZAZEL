@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-09-09T15:10:35.209245+00:00",
+  "deployment_id": "dpl_BYib9hAyej1j77L83eeizT9b3QkM",
+  "deployment_url": "https://azzazel-remote-fr0bta13q-junmoxia41s-projects.vercel.app",
+  "short_url": "https://azzazel-vpn.vercel.app",
+  "previous_aliases_preserved": [],
+  "status": "ALIAS_ASSIGNED; public accessibility not verified",
+  "public_http_checks": [
+    {
+      "url": "https://azzazel-vpn.vercel.app",
+      "http_status": 200,
+      "final_url": "https://vercel.com/login?next=%2Fsso-api%3Furl%3Dhttps%253A%252F%252Fazzazel-vpn.vercel.app%252F%26nonce%3Df3b8c7318340da9b13905e232ea220a0f48316eb5d040b84bbf637197167c755",
+      "title": "Login – Vercel",
+      "react_root_present": false,
+      "module_script_present": false
+    },
+    {
+      "url": "https://azzazel-remote-junmoxia41s-projects.vercel.app",
+      "http_status": 200,
+      "final_url": "https://vercel.com/login?next=%2Fsso-api%3Furl%3Dhttps%253A%252F%252Fazzazel-remote-junmoxia41s-projects.vercel.app%252F%26nonce%3Dc9442698f3d01fc556799e006c93d93493d632834ea807988cc42d7ad91c5a35",
+      "title": "Login – Vercel",
+      "react_root_present": false,
+      "module_script_present": false
+    }
+  ]
+}

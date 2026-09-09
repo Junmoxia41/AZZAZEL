@@ -1,0 +1,89 @@
+name: Build & Release Windows .exe
+
+# Compila AZZAZEL en un runner real de Windows (PyInstaller no puede
+# cross-compilar desde Linux) y publica el resultado como GitHub Release.
+#
+# Se dispara:
+#   - al empujar un tag de versión (ej. v1.0.0) -> crea/actualiza el Release
+#   - manualmente desde la pestaña Actions ("Run workflow")
+#   - en cada push a main, solo para verificar que el build no está roto
+#     (no publica Release en ese caso, solo sube el .zip como artifact)
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependencias Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Instalar y compilar la PWA (web_pwa/dist)
+        working-directory: web_pwa
+        run: |
+          npm install
+          npm run build
+
+      - name: Verificar que no hay credenciales quemadas en el build
+        shell: bash
+        run: |
+          set -e
+          for token in "airienrr" "123k20@A" "192.105.34.1"; do
+            if grep -R "$token" web_pwa/dist >/dev/null 2>&1; then
+              echo "::error::Se encontró un dato personal ('$token') en el build de la PWA. Abortando release."
+              exit 1
+            fi
+          done
+          echo "OK: build de la PWA sin credenciales personales."
+
+      - name: Ejecutar la suite de pruebas
+        run: python -m pytest tests/ -q
+
+      - name: Generar el .exe con PyInstaller
+        run: pyinstaller packaging/azzazel.spec --noconfirm --clean
+
+      - name: Empaquetar ZIP de distribución
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "dist/AZZAZEL/*" -DestinationPath "dist/AZZAZEL-windows.zip" -Force
+
+      - name: Subir artifact de build (todas las ejecuciones)
+        uses: actions/upload-artifact@v4
+        with:
+          name: AZZAZEL-windows
+          path: dist/AZZAZEL-windows.zip
+          retention-days: 30
+
+      - name: Publicar GitHub Release (solo en tags v*.*.*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/AZZAZEL-windows.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
