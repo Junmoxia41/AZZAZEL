@@ -19,7 +19,15 @@ from pathlib import Path
 
 block_cipher = None
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# PyInstaller ejecuta los .spec con exec(), donde `__file__` no está
+# definido; en su lugar inyecta la variable global `SPECPATH` con la carpeta
+# que contiene este archivo .spec (packaging/).
+try:
+    _SPEC_DIR = Path(SPECPATH)  # noqa: F821 - inyectada por PyInstaller
+except NameError:
+    _SPEC_DIR = Path(__file__).resolve().parent
+
+PROJECT_ROOT = _SPEC_DIR.resolve().parent
 DIST_PWA = PROJECT_ROOT / "web_pwa" / "dist"
 
 if not DIST_PWA.exists():
